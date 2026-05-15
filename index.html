@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Classify — Balanced class assignments in seconds</title>
+  <meta name="description" content="Classify helps school administrators assign students to classes by balancing gender, behavior, IEPs, reading levels, and more — automatically." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --terra: #b5664a;
+      --terra-dark: #9a5239;
+      --ink: #1a1714;
+      --ink-2: #3d3830;
+      --ink-3: #6b6358;
+      --ink-4: #9c9287;
+      --bg: #faf8f5;
+      --bg-2: #f3f0eb;
+      --line: #e4dfd8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Geist', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 60px;
+      background: rgba(250,248,245,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-brand {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 22px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--terra); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px;
+      color: var(--ink-3);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s, transform 0.1s;
+      border: none;
+    }
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-terra { background: var(--terra); color: #fff; }
+    .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+    .btn-outline:hover { border-color: var(--ink-3); }
+    .btn-lg { padding: 13px 28px; font-size: 15px; border-radius: 10px; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 160px 48px 100px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-3);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(44px, 7vw, 80px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+    .hero h1 em { color: var(--terra); font-style: italic; }
+
+    .hero-sub {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--ink-3);
+      max-width: 560px;
+      margin: 0 auto 40px;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-note {
+      margin-top: 16px;
+      font-size: 12px;
+      color: var(--ink-4);
+    }
+
+    /* ── Screenshot ── */
+    .screenshot-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px 80px;
+    }
+    .screenshot-frame {
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
+    }
+    .screenshot-bar {
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+    .screenshot-inner {
+      padding: 40px;
+      min-height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-4);
+      font-size: 13px;
+    }
+
+    /* ── Section ── */
+    section {
+      padding: 80px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--terra);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .section-title em { color: var(--terra); font-style: italic; }
+
+    .section-sub {
+      font-size: 16px;
+      color: var(--ink-3);
+      max-width: 520px;
+      line-height: 1.65;
+      margin-bottom: 56px;
+    }
+
+    /* ── Problem ── */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .problem-card {
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .problem-card h3 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .problem-card p {
+      font-size: 14px;
+      color: var(--ink-3);
+      line-height: 1.6;
+    }
+    .problem-num {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 36px;
+      color: var(--terra);
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+
+    /* ── Features ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .feature {
+      background: var(--bg);
+      padding: 32px;
+    }
+
+    .feature-icon {
+      font-size: 24px;
+      margin-bottom: 14px;
+    }
+
+    .feature h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .feature p {
+      font-size: 13px;
+      color: var(--ink-3);
+      line-height: 1.6;
+    }
+
+    /* ── How it works ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+    }
+
+    .step-num {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 48px;
+      color: var(--terra);
+      opacity: 0.25;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .step h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      font-size: 14px;
+      color: var(--ink-3);
+      line-height: 1.65;
+    }
+
+    /* ── Balances ── */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tag {
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      border-radius: 100px;
+      padding: 7px 16px;
+      font-size: 13px;
+      color: var(--ink-2);
+      font-weight: 500;
+    }
+    .tag.highlight {
+      background: oklch(0.95 0.04 50);
+      border-color: oklch(0.80 0.08 50);
+      color: var(--terra-dark);
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: var(--ink);
+      border-radius: 24px;
+      padding: 80px 64px;
+      text-align: center;
+      margin: 0 48px 80px;
+    }
+
+    .cta-section h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(32px, 4vw, 52px);
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .cta-section h2 em { color: oklch(0.75 0.12 50); font-style: italic; }
+
+    .cta-section p {
+      font-size: 16px;
+      color: oklch(0.65 0 0);
+      max-width: 440px;
+      margin: 0 auto 36px;
+      line-height: 1.65;
+    }
+
+    .cta-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-light { background: #fff; color: var(--ink); }
+
+    /* ── Download ── */
+    .download-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 560px;
+    }
+
+    .download-card {
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 28px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .download-card:hover {
+      border-color: var(--terra);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    .download-os {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-4);
+    }
+    .download-name {
+      font-size: 17px;
+      font-weight: 600;
+    }
+    .download-desc {
+      font-size: 12px;
+      color: var(--ink-4);
+    }
+
+    .download-note {
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--ink-4);
+      line-height: 1.6;
+    }
+
+    /* ── Divider ── */
+    hr {
+      border: none;
+      border-top: 1px solid var(--line);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── Footer ── */
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--ink-4);
+    }
+
+    footer a {
+      color: var(--ink-4);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    footer a:hover { color: var(--ink); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 120px 24px 64px; }
+      .screenshot-wrap { padding: 0 24px 48px; }
+      section { padding: 64px 24px; }
+      .problem-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; gap: 32px; }
+      .cta-section { padding: 48px 28px; margin: 0 24px 48px; }
+      .download-cards { grid-template-columns: 1fr; max-width: 100%; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a class="nav-brand" href="/"><span>Class</span>ify</a>
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#download">Download</a></li>
+    </ul>
+    <a class="btn btn-terra" href="#download">Download free</a>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-badge">Built for elementary schools</div>
+    <h1>Class assignments that <em>actually</em> balance.</h1>
+    <p class="hero-sub">
+      What takes your team days of deliberation, Classify solves in seconds — balancing gender, behavior, IEPs, reading levels, friend groups, and more.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-terra btn-lg" href="#download">Download for free</a>
+      <a class="btn btn-outline btn-lg" href="#how-it-works">See how it works</a>
+    </div>
+    <p class="hero-note">Mac &amp; Windows · Runs locally · Your data stays on your server</p>
+  </div>
+
+  <!-- App frame placeholder -->
+  <div class="screenshot-wrap">
+    <div class="screenshot-frame">
+      <div class="screenshot-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+      </div>
+      <div class="screenshot-inner">
+        App screenshot coming soon
+      </div>
+    </div>
+  </div>
+
+  <!-- Problem -->
+  <section>
+    <div class="section-label">The problem</div>
+    <h2 class="section-title">Class placement is <em>hard.</em></h2>
+    <p class="section-sub">Every spring, teachers and administrators spend days — sometimes weeks — manually building class lists. It's exhausting, and the results are still imperfect.</p>
+
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-num">9</div>
+        <h3>Factors to balance simultaneously</h3>
+        <p>Gender, behavior, independence, IEP, 504, ESL, GATE, math level, reading level — plus friendship and conflict pairs. No spreadsheet can optimize all of these at once.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">Days</div>
+        <h3>Lost to manual placement each year</h3>
+        <p>Administrators shuffle rosters by hand, revisit decisions, resolve parent requests, and still wonder if the result is truly fair. Classify does it in seconds.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">100%</div>
+        <h3>Local — your student data never leaves</h3>
+        <p>Classify runs on your school's computer. No cloud accounts, no data uploads, no FERPA headaches. Just a server on your network that your team can access.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">Multi</div>
+        <h3>User collaboration, built in</h3>
+        <p>Multiple teachers can review placements simultaneously. One person edits at a time with live lock status — everyone else sees changes in real time.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- How it works -->
+  <section id="how-it-works">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">Three steps to <em>balanced</em> classes.</h2>
+    <p class="section-sub">Classify guides you from raw roster to final placement with a clear, repeatable process your whole team can follow.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">i.</div>
+        <h3>Import your roster</h3>
+        <p>Drop in a CSV from PowerSchool, Infinite Campus, Aeries, or any spreadsheet. Classify walks you through mapping your columns and values — no formatting required.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">ii.</div>
+        <h3>Configure your rules</h3>
+        <p>Tell the optimizer what matters most. Set priority weights for each factor, mark hard constraints, and flag friendship pairs and conflicts per student.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">iii.</div>
+        <h3>Run and review</h3>
+        <p>One click. The optimizer runs, shows you a balance report across every class, and lets you drag-and-drop students to make final adjustments.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- Features -->
+  <section id="features">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Everything your team <em>needs.</em></h2>
+    <p class="section-sub">Built specifically for elementary school administrators — not a generic tool forced into an educational context.</p>
+
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">⚖️</div>
+        <h3>9-factor optimizer</h3>
+        <p>Balances gender, behavior, independence, IEP, 504, ESL, GATE, math and reading levels simultaneously across all classes.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🤝</div>
+        <h3>Friend &amp; conflict pairs</h3>
+        <p>Mark students who should be together or kept apart. The solver respects these as hard constraints — not suggestions.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📥</div>
+        <h3>Flexible CSV import</h3>
+        <p>Works with any export format. Map your columns and values with a guided wizard — no reformatting your spreadsheet.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">👥</div>
+        <h3>Multi-user collaboration</h3>
+        <p>Your whole team can review at once. Edit locks and live sync keep everyone on the same page without conflicts.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🖱️</div>
+        <h3>Drag-and-drop adjustments</h3>
+        <p>After the optimizer runs, make manual tweaks by dragging students between classes. Balance stats update live.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔒</div>
+        <h3>Runs on your server</h3>
+        <p>Student data never leaves your school network. No cloud accounts. No subscriptions. No FERPA compliance worries.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📊</div>
+        <h3>Balance report</h3>
+        <p>See a detailed breakdown of every factor across every class — something you can defend in any staff or parent meeting.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🏫</div>
+        <h3>Multi-year history</h3>
+        <p>Keep multiple school years active. Review past assignments and track changes with a full audit history.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✏️</div>
+        <h3>Custom properties</h3>
+        <p>Add school-specific student attributes beyond the built-in fields. Classify adapts to how your school tracks students.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- What it balances -->
+  <section>
+    <div class="section-label">What Classify balances</div>
+    <h2 class="section-title">Every factor, <em>simultaneously.</em></h2>
+    <p class="section-sub">The optimizer considers all of these at once — weighted by what matters most to your school.</p>
+    <div class="tags">
+      <span class="tag highlight">Gender</span>
+      <span class="tag highlight">Behavior</span>
+      <span class="tag highlight">Independence</span>
+      <span class="tag highlight">IEP</span>
+      <span class="tag highlight">504 plan</span>
+      <span class="tag highlight">ESL</span>
+      <span class="tag highlight">GATE</span>
+      <span class="tag highlight">Math level</span>
+      <span class="tag highlight">Reading level</span>
+      <span class="tag">Friend requests</span>
+      <span class="tag">Conflict pairs</span>
+      <span class="tag">Class size</span>
+      <span class="tag">Custom attributes</span>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>Ready to save your team <em>days</em> of work?</h2>
+    <p>Download Classify for free. Runs on your school's computer — no subscriptions, no data uploads, no setup fees.</p>
+    <div class="cta-actions">
+      <a class="btn btn-light btn-lg" href="#download">Download for Mac</a>
+      <a class="btn btn-outline btn-lg" style="color:#fff;border-color:rgba(255,255,255,0.2);" href="#download">Download for Windows</a>
+    </div>
+  </div>
+
+  <!-- Download -->
+  <section id="download">
+    <div class="section-label">Download</div>
+    <h2 class="section-title">Free to download. <em>Free forever.</em></h2>
+    <p class="section-sub">Classify is free for schools. Download the app, install it on any computer on your network, and your whole team can use it immediately.</p>
+
+    <div class="download-cards">
+      <a class="download-card" href="#" id="dl-mac">
+        <div class="download-os">macOS</div>
+        <div class="download-name">Classify for Mac</div>
+        <div class="download-desc">macOS 12 or later · Apple Silicon &amp; Intel</div>
+      </a>
+      <a class="download-card" href="#" id="dl-win">
+        <div class="download-os">Windows</div>
+        <div class="download-name">Classify for Windows</div>
+        <div class="download-desc">Windows 10 or later · 64-bit</div>
+      </a>
+    </div>
+
+    <p class="download-note">
+      Current version: <strong id="current-version">1.0.0</strong><br>
+      Runs locally on your school's server. Accessible to your whole team over your network.
+    </p>
+  </section>
+
+  <hr />
+
+  <!-- Footer -->
+  <footer>
+    <a class="nav-brand" href="/"><span>Class</span>ify</a>
+    <span>Built for schools that care about fair placements.</span>
+  </footer>
+
+  <script>
+    // Load latest version info from manifest
+    fetch('/releases/latest.json')
+      .then(r => r.json())
+      .then(data => {
+        if (data.version) {
+          document.getElementById('current-version').textContent = data.version;
+        }
+        if (data.mac_url) {
+          document.getElementById('dl-mac').href = data.mac_url;
+        }
+        if (data.windows_url) {
+          document.getElementById('dl-win').href = data.windows_url;
+        }
+      })
+      .catch(() => {});
+  </script>
+
+</body>
+</html>
