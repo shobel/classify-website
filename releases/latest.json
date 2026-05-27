@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "mac_url": "",
-  "windows_url": "",
+  "version": "1.1.0",
+  "mac_url": "https://github.com/shobel/class-assigner/releases/download/v1.1.0/Classify-1.1.0-arm64.dmg",
+  "windows_url": "https://github.com/shobel/class-assigner/releases/download/v1.1.0/Classify-Setup-1.1.0.exe",
   "notes": ""
 }
