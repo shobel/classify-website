@@ -1,0 +1,805 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How Classify works — A complete walkthrough</title>
+  <meta name="description" content="See every step of the Classify workflow — from importing your roster to reviewing final class assignments." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --terra: #b5664a;
+      --terra-dark: #9a5239;
+      --terra-soft: oklch(0.95 0.04 50);
+      --ink: #1a1714;
+      --ink-2: #3d3830;
+      --ink-3: #6b6358;
+      --ink-4: #9c9287;
+      --bg: #faf8f5;
+      --bg-2: #f3f0eb;
+      --bg-3: #ede9e3;
+      --line: #e4dfd8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Geist', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 60px;
+      background: rgba(250,248,245,0.90);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-brand {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 22px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--terra); }
+
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--ink-3);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-back:hover { color: var(--ink); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s, transform 0.1s;
+      border: none;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-terra { background: var(--terra); color: #fff; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 120px 48px 72px;
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--terra);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(36px, 5vw, 58px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .hero h1 em { color: var(--terra); font-style: italic; }
+
+    .hero p {
+      font-size: 17px;
+      color: var(--ink-3);
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ── Jump nav ── */
+    .jump-nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px 56px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .jump-link {
+      display: inline-block;
+      padding: 6px 14px;
+      border: 1px solid var(--line);
+      border-radius: 100px;
+      font-size: 13px;
+      color: var(--ink-3);
+      text-decoration: none;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .jump-link:hover { color: var(--ink); border-color: var(--ink-3); }
+
+    /* ── Divider ── */
+    hr {
+      border: none;
+      border-top: 1px solid var(--line);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── Tour section ── */
+    .tour-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 48px;
+    }
+
+    .tour-section + .tour-section {
+      border-top: 1px solid var(--line);
+    }
+
+    .tour-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .tour-step {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--terra-soft);
+      border: 1px solid oklch(0.85 0.07 50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--terra-dark);
+      flex-shrink: 0;
+    }
+
+    .tour-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-4);
+    }
+
+    .tour-type-badge {
+      margin-left: auto;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .badge-video {
+      background: #fff0e8;
+      color: #b5490a;
+      border: 1px solid #f5c9ad;
+    }
+    .badge-screenshot {
+      background: var(--bg-2);
+      color: var(--ink-4);
+      border: 1px solid var(--line);
+    }
+
+    .tour-section h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(26px, 3vw, 38px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .tour-section h2 em { color: var(--terra); font-style: italic; }
+
+    .tour-section > p {
+      font-size: 15px;
+      color: var(--ink-3);
+      line-height: 1.75;
+      max-width: 640px;
+      margin-bottom: 36px;
+    }
+
+    /* ── Media placeholder ── */
+    .media-frame {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.07), 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .media-bar {
+      background: var(--bg-2);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+
+    .media-placeholder {
+      background: var(--bg-2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--ink-4);
+      font-size: 13px;
+      padding: 24px;
+    }
+
+    .media-placeholder-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--bg-3);
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .media-placeholder-text {
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .media-placeholder-text strong {
+      display: block;
+      color: var(--ink-3);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    /* aspect ratios */
+    .ratio-wide { aspect-ratio: 16/10; }
+    .ratio-tall { aspect-ratio: 4/3; }
+    .ratio-split { aspect-ratio: 16/9; }
+
+    /* ── Two-column layout for some sections ── */
+    .tour-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 0;
+    }
+
+    .tour-two-col .media-frame { margin-bottom: 0; }
+
+    .col-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--ink-4);
+      margin-bottom: 10px;
+    }
+
+    /* ── Caption ── */
+    .media-caption {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--ink-4);
+      line-height: 1.6;
+    }
+
+    /* ── Side-by-side text + media ── */
+    .tour-split {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    .tour-split-text {}
+    .tour-split-text h2 { font-size: clamp(22px, 2.5vw, 32px); margin-bottom: 10px; }
+    .tour-split-text p { font-size: 14px; }
+
+    /* ── CTA ── */
+    .cta-strip {
+      background: var(--ink);
+      border-radius: 20px;
+      padding: 56px 64px;
+      text-align: center;
+      margin: 0 48px 80px;
+    }
+
+    .cta-strip h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(26px, 3vw, 42px);
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .cta-strip h2 em { color: oklch(0.75 0.12 50); font-style: italic; }
+
+    .cta-strip p {
+      font-size: 15px;
+      color: oklch(0.60 0 0);
+      max-width: 400px;
+      margin: 0 auto 28px;
+      line-height: 1.65;
+    }
+
+    .btn-light { background: #fff; color: var(--ink); }
+
+    /* ── Footer ── */
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--ink-4);
+      border-top: 1px solid var(--line);
+    }
+    footer a { color: var(--ink-4); text-decoration: none; transition: color 0.15s; }
+    footer a:hover { color: var(--ink); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .hero { padding: 100px 24px 48px; }
+      .jump-nav { padding: 0 24px 40px; }
+      .tour-section { padding: 56px 24px; }
+      .tour-split { grid-template-columns: 1fr; gap: 32px; }
+      .tour-two-col { grid-template-columns: 1fr; }
+      .cta-strip { padding: 40px 24px; margin: 0 24px 56px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a class="nav-brand" href="/"><span>Class</span>ify</a>
+    <a class="nav-back" href="/">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Back to overview
+    </a>
+    <a class="btn btn-terra" href="/#contact">Get in touch</a>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-eyebrow">Product walkthrough</div>
+    <h1>See exactly how <em>Classify works.</em></h1>
+    <p>A step-by-step look at every part of the process — from importing your roster to handing off final class lists.</p>
+  </div>
+
+  <!-- Jump nav -->
+  <div class="jump-nav">
+    <a class="jump-link" href="#import">Importing your roster</a>
+    <a class="jump-link" href="#students">Student profiles</a>
+    <a class="jump-link" href="#configure">Configuring classes</a>
+    <a class="jump-link" href="#weights">Assignment weights</a>
+    <a class="jump-link" href="#run">Running the optimizer</a>
+    <a class="jump-link" href="#results">Reviewing results</a>
+    <a class="jump-link" href="#adjust">Manual adjustments</a>
+    <a class="jump-link" href="#collaboration">Collaboration</a>
+    <a class="jump-link" href="#users">User management</a>
+    <a class="jump-link" href="#nextyear">Next school year</a>
+  </div>
+
+  <hr />
+
+  <!-- 1. Import -->
+  <div class="tour-section" id="import">
+    <div class="tour-meta">
+      <div class="tour-step">1</div>
+      <span class="tour-label">Getting started</span>
+      <span class="tour-type-badge badge-video">Video</span>
+    </div>
+    <h2>Importing your <em>roster</em></h2>
+    <p>Classify accepts a CSV export from any student information system — PowerSchool, Infinite Campus, Aeries, or a plain spreadsheet. A guided wizard walks you through mapping your column names and values to Classify's fields. No reformatting required.</p>
+
+    <div class="media-frame">
+      <div class="media-bar">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      </div>
+      <div class="media-placeholder ratio-wide">
+        <div class="media-placeholder-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+          </svg>
+        </div>
+        <div class="media-placeholder-text">
+          <strong>Screen recording — CSV import wizard</strong>
+          Upload a CSV, step through column mapping, confirm import
+        </div>
+      </div>
+    </div>
+    <p class="media-caption">The import wizard detects your columns and lets you map them to Classify's fields. Values like "Yes/No" or "High/Med/Low" are mapped once and remembered.</p>
+  </div>
+
+  <!-- 2. Student profiles -->
+  <div class="tour-section" id="students">
+    <div class="tour-meta">
+      <div class="tour-step">2</div>
+      <span class="tour-label">Student data</span>
+      <span class="tour-type-badge badge-screenshot">Screenshot</span>
+    </div>
+    <h2>Student <em>profiles</em></h2>
+    <p>Every student in a grade is listed in the roster view. Click any student to open their detail panel — where you can view and edit all their properties, add friendship pairs, mark separations, set previous teachers, and add private notes that carry forward to next year.</p>
+
+    <div class="tour-two-col">
+      <div>
+        <div class="col-label">Roster view</div>
+        <div class="media-frame">
+          <div class="media-bar">
+            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+          </div>
+          <div class="media-placeholder ratio-tall">
+            <div class="media-placeholder-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+              </svg>
+            </div>
+            <div class="media-placeholder-text">
+              <strong>Screenshot — student roster</strong>
+              Full grade roster, property columns visible
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="col-label">Student detail panel</div>
+        <div class="media-frame">
+          <div class="media-bar">
+            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+          </div>
+          <div class="media-placeholder ratio-tall">
+            <div class="media-placeholder-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div class="media-placeholder-text">
+              <strong>Screenshot — student detail panel</strong>
+              Panel open, showing properties + friends + notes
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="media-caption">Properties include gender, behavior, independence, IEP, 504, ESL, GATE, math level, reading level, and any custom attributes your school has defined.</p>
+  </div>
+
+  <!-- 3. Configure classes -->
+  <div class="tour-section" id="configure">
+    <div class="tour-meta">
+      <div class="tour-step">3</div>
+      <span class="tour-label">Setup</span>
+      <span class="tour-type-badge badge-screenshot">Screenshot</span>
+    </div>
+    <h2>Configuring your <em>classes</em></h2>
+    <p>For each grade, tell Classify how many classes to create, the target class size, and which teachers are available. Classify will optimize teacher assignments alongside student placement — keeping siblings, past-teacher conflicts, and teacher uniqueness rules in mind.</p>
+
+    <div class="media-frame">
+      <div class="media-bar">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      </div>
+      <div class="media-placeholder ratio-wide">
+        <div class="media-placeholder-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M12 2v2M4.93 4.93l1.41 1.41M2 12h2M4.93 19.07l1.41-1.41M12 20v2M19.07 19.07l-1.41-1.41M20 12h2"/>
+          </svg>
+        </div>
+        <div class="media-placeholder-text">
+          <strong>Screenshot — grade settings screen</strong>
+          Number of classes, class size, teacher list
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Weights -->
+  <div class="tour-section" id="weights">
+    <div class="tour-meta">
+      <div class="tour-step">4</div>
+      <span class="tour-label">Configuration</span>
+      <span class="tour-type-badge badge-screenshot">Screenshot</span>
+    </div>
+    <h2>Setting your <em>priorities</em></h2>
+    <p>The optimizer balances every factor simultaneously — but not all factors are equally important at every school. Use the weights screen to tell Classify what matters most. You can also toggle individual factors on or off entirely, and mark friendship and separation rules as hard constraints the optimizer will never break.</p>
+
+    <div class="media-frame">
+      <div class="media-bar">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      </div>
+      <div class="media-placeholder ratio-wide">
+        <div class="media-placeholder-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+            <circle cx="8" cy="6" r="2" fill="var(--bg-2)"/><circle cx="16" cy="12" r="2" fill="var(--bg-2)"/><circle cx="10" cy="18" r="2" fill="var(--bg-2)"/>
+          </svg>
+        </div>
+        <div class="media-placeholder-text">
+          <strong>Screenshot — assignment weights / config screen</strong>
+          Weight sliders and toggles for each factor
+        </div>
+      </div>
+    </div>
+    <p class="media-caption">Weights can be set school-wide and overridden per grade. A 3rd grade team might weight reading level heavily; Kindergarten might prioritize gender balance above all else.</p>
+  </div>
+
+  <!-- 5. Run -->
+  <div class="tour-section" id="run">
+    <div class="tour-meta">
+      <div class="tour-step">5</div>
+      <span class="tour-label">The optimizer</span>
+      <span class="tour-type-badge badge-video">Video</span>
+    </div>
+    <h2>Running the <em>optimizer</em></h2>
+    <p>One click kicks off the solver. Classify explores an enormous number of possible arrangements and finds the best one given your weights and constraints. For a typical grade of 80–120 students across 4–5 classes, it completes in seconds.</p>
+
+    <div class="media-frame">
+      <div class="media-bar">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      </div>
+      <div class="media-placeholder ratio-wide">
+        <div class="media-placeholder-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+          </svg>
+        </div>
+        <div class="media-placeholder-text">
+          <strong>Screen recording — clicking "Run" through to result</strong>
+          Show the progress animation and the result appearing
+        </div>
+      </div>
+    </div>
+    <p class="media-caption">The optimizer shows its progress in real time. Once complete, you're taken straight to the results view.</p>
+  </div>
+
+  <!-- 6. Results -->
+  <div class="tour-section" id="results">
+    <div class="tour-meta">
+      <div class="tour-step">6</div>
+      <span class="tour-label">Results</span>
+      <span class="tour-type-badge badge-screenshot">Screenshot</span>
+    </div>
+    <h2>Reviewing the <em>assignment</em></h2>
+    <p>The results view shows every student placed into their class, alongside a full balance report. For each factor, you can see how evenly it's distributed across all classes — and defend any placement decision with data.</p>
+
+    <div class="tour-two-col">
+      <div>
+        <div class="col-label">Class lists</div>
+        <div class="media-frame">
+          <div class="media-bar">
+            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+          </div>
+          <div class="media-placeholder ratio-tall">
+            <div class="media-placeholder-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M3 9h18"/><path d="M9 21V9"/><path d="M15 21V9"/>
+              </svg>
+            </div>
+            <div class="media-placeholder-text">
+              <strong>Screenshot — class assignment view</strong>
+              Students grouped into their assigned classes
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="col-label">Balance report</div>
+        <div class="media-frame">
+          <div class="media-bar">
+            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+          </div>
+          <div class="media-placeholder ratio-tall">
+            <div class="media-placeholder-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+              </svg>
+            </div>
+            <div class="media-placeholder-text">
+              <strong>Screenshot — balance report</strong>
+              Factor breakdown per class (gender, IEP, behavior, etc.)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Drag and drop -->
+  <div class="tour-section" id="adjust">
+    <div class="tour-meta">
+      <div class="tour-step">7</div>
+      <span class="tour-label">Manual adjustments</span>
+      <span class="tour-type-badge badge-video">Video</span>
+    </div>
+    <h2>Drag-and-drop <em>fine-tuning</em></h2>
+    <p>No algorithm knows everything. After the optimizer runs, you can drag any student from one class to another. The balance report updates live as you make changes, so you can see the impact of every move before you commit.</p>
+
+    <div class="media-frame">
+      <div class="media-bar">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      </div>
+      <div class="media-placeholder ratio-wide">
+        <div class="media-placeholder-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+          </svg>
+        </div>
+        <div class="media-placeholder-text">
+          <strong>Screen recording — drag a student between classes</strong>
+          Show balance stats updating live after the move
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Collaboration -->
+  <div class="tour-section" id="collaboration">
+    <div class="tour-meta">
+      <div class="tour-step">8</div>
+      <span class="tour-label">Multi-user</span>
+      <span class="tour-type-badge badge-screenshot">Screenshot</span>
+    </div>
+    <h2>Your whole team <em>in one place</em></h2>
+    <p>Every teacher and assistant with an account can open Classify in their browser and see the current roster and assignments. Only one person edits at a time — an active lock indicator shows who's in control, and everyone else sees changes appear in real time.</p>
+
+    <div class="media-frame">
+      <div class="media-bar">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      </div>
+      <div class="media-placeholder ratio-wide">
+        <div class="media-placeholder-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="media-placeholder-text">
+          <strong>Screenshot — lock indicator visible</strong>
+          Show the "currently being edited by [name]" state in the topbar
+        </div>
+      </div>
+    </div>
+    <p class="media-caption">Teachers access Classify through their browser at the school's local network address — no app to install, no account on our servers.</p>
+  </div>
+
+  <!-- 9. User management -->
+  <div class="tour-section" id="users">
+    <div class="tour-meta">
+      <div class="tour-step">9</div>
+      <span class="tour-label">Administration</span>
+      <span class="tour-type-badge badge-screenshot">Screenshot</span>
+    </div>
+    <h2>Managing <em>users</em></h2>
+    <p>Admins control who has access. Adding a staff member generates a one-time invite code — they visit a setup page, pick their own username and password, and they're in. Roles can be adjusted at any time, and accounts can be removed instantly.</p>
+
+    <div class="tour-two-col">
+      <div>
+        <div class="col-label">User list</div>
+        <div class="media-frame">
+          <div class="media-bar">
+            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+          </div>
+          <div class="media-placeholder ratio-tall">
+            <div class="media-placeholder-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div class="media-placeholder-text">
+              <strong>Screenshot — users screen</strong>
+              List of accounts with roles (Admin / Teacher)
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="col-label">Invite code</div>
+        <div class="media-frame">
+          <div class="media-bar">
+            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+          </div>
+          <div class="media-placeholder ratio-tall">
+            <div class="media-placeholder-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </div>
+            <div class="media-placeholder-text">
+              <strong>Screenshot — invite code modal</strong>
+              The generated code and share/email options
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. Next year -->
+  <div class="tour-section" id="nextyear">
+    <div class="tour-meta">
+      <div class="tour-step">10</div>
+      <span class="tour-label">Year transition</span>
+      <span class="tour-type-badge badge-screenshot">Screenshot</span>
+    </div>
+    <h2>Moving to the <em>next school year</em></h2>
+    <p>When the new year starts, one click promotes every student to their next grade — preserving all their data, notes, and history. Previous year records stay intact and accessible. Kindergarten is reset and ready for new students.</p>
+
+    <div class="media-frame">
+      <div class="media-bar">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      </div>
+      <div class="media-placeholder ratio-wide">
+        <div class="media-placeholder-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </div>
+        <div class="media-placeholder-text">
+          <strong>Screenshot — school year sidebar with multiple years</strong>
+          Show 2024–25 and 2025–26 in the sidebar, students promoted
+        </div>
+      </div>
+    </div>
+    <p class="media-caption">All school years remain accessible — you can review any past year's assignments at any time.</p>
+  </div>
+
+  <hr />
+
+  <!-- CTA -->
+  <div class="cta-strip" style="margin-top: 80px;">
+    <h2>Ready to see it <em>at your school?</em></h2>
+    <p>Get in touch and we'll walk you through setup and pricing.</p>
+    <a class="btn btn-light btn-lg" href="/#contact" style="padding: 13px 32px;">Get in touch</a>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <a class="nav-brand" href="/"><span>Class</span>ify</a>
+    <span>Student data stays where it belongs — on your school's computers.</span>
+  </footer>
+
+</body>
+</html>
