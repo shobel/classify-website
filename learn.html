@@ -436,12 +436,13 @@
           <p><strong>Which computer?</strong> Install on a machine that stays on and connected to the school network during the school day. Teachers connect to it from their own devices.</p>
         </div>
 
-        <div class="steps">
+        <p style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px;">On Mac</p>
+        <div class="steps" style="margin-bottom:24px;">
           <div class="step">
             <div class="step-num">1</div>
             <div class="step-body">
               <strong>Download the installer</strong>
-              <p>Get the latest version from the Classify website. On Mac, download the <code>.dmg</code> file matching your chip — <strong>arm64</strong> for Apple Silicon (M1/M2/M3/M4), or the standard <code>.dmg</code> for Intel.</p>
+              <p>Get the latest version from the Classify website. Choose <strong>arm64</strong> for Apple Silicon (M1/M2/M3/M4), or the standard <code>.dmg</code> for Intel.</p>
             </div>
           </div>
           <div class="step">
@@ -454,35 +455,75 @@
           <div class="step">
             <div class="step-num">3</div>
             <div class="step-body">
-              <strong>Open Classify</strong>
-              <p>Find Classify in your Applications folder and double-click it. The first launch takes a few seconds while the background server starts.</p>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">4</div>
-            <div class="step-body">
-              <strong>Enter your activation code</strong>
-              <p>You'll be prompted to enter the activation code you received when purchasing Classify. Enter it and click Activate.</p>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">5</div>
-            <div class="step-body">
-              <strong>Create your admin account</strong>
-              <p>On first run, you'll be asked to set up the admin account — choose a username and password. This becomes the primary administrator account.</p>
+              <strong>Open Classify from your Applications folder</strong>
+              <p>The first launch takes a few seconds while the background server starts. If macOS says it can't verify the app, see <a href="#wont-open" style="color:var(--terra);">App won't open</a> below.</p>
             </div>
           </div>
         </div>
 
+        <p style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px;">On Windows</p>
+        <div class="steps" style="margin-bottom:24px;">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Download the installer</strong>
+              <p>Get the latest <code>Classify-Setup-X.X.X.exe</code> from the Classify website.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Run the installer</strong>
+              <p>Double-click the <code>.exe</code> file. Windows may show a SmartScreen warning — click <strong>More info</strong> then <strong>Run anyway</strong>. The installer completes automatically and adds a shortcut to your desktop.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Open Classify</strong>
+              <p>Launch Classify from the desktop shortcut or the Start menu. The first launch takes a few seconds while the background server starts.</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px;">After installing (Mac &amp; Windows)</p>
+        <div class="steps" style="margin-bottom:24px;">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Enter your activation code</strong>
+              <p>You'll be prompted to enter the activation code you received when purchasing Classify. Enter it and click <strong>Activate</strong>.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Choose Start fresh or Restore from backup</strong>
+              <p>If this is a new installation, click <strong>Start fresh</strong>. If you're moving from another computer, click <strong>Restore from backup</strong> and select your <code>.classify</code> backup file.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Create your admin account</strong>
+              <p>Choose a username and password. This becomes the primary administrator account.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+          <div class="media-frame" style="margin-bottom:0;">
+            <div class="media-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+            <img src="media/1-activation-code.png" alt="Activation code screen" style="width:100%;display:block;">
+          </div>
+          <div class="media-frame" style="margin-bottom:0;">
+            <div class="media-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+            <img src="media/2-start-fresh.png" alt="Start fresh or restore from backup" style="width:100%;display:block;">
+          </div>
+        </div>
         <div class="media-frame">
           <div class="media-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
-          <div class="media-placeholder">
-            <div class="media-placeholder-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-            </div>
-            <strong>Screenshot — DMG window open, arrow pointing to Applications</strong>
-            <span>Show the drag-to-install step</span>
-          </div>
+          <img src="media/2.5-setup-admin-account.png" alt="Create admin account screen" style="width:100%;display:block;">
         </div>
       </div>
 
@@ -531,6 +572,7 @@
       </div>
 
       <!-- ── Installing a new version ── -->
+
       <div class="guide" id="update">
         <div class="guide-header">
           <div class="guide-icon">
@@ -542,7 +584,8 @@
         </div>
         <p class="guide-intro">Updating Classify is straightforward. Your data is never touched during an update — it lives in a separate location from the app itself.</p>
 
-        <div class="steps">
+        <p style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px;">On Mac</p>
+        <div class="steps" style="margin-bottom:24px;">
           <div class="step">
             <div class="step-num">1</div>
             <div class="step-body">
@@ -561,7 +604,32 @@
             <div class="step-num">3</div>
             <div class="step-body">
               <strong>Open Classify</strong>
-              <p>Open the app as normal. Classify detects that the version has changed and automatically restarts its background server with the new version. This takes a few seconds.</p>
+              <p>Classify detects the version change and restarts its background server automatically. This takes a few seconds.</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px;">On Windows</p>
+        <div class="steps" style="margin-bottom:24px;">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Download the new version</strong>
+              <p>Download the new <code>Classify-Setup-X.X.X.exe</code> from the update notification or the Classify website.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Run the installer</strong>
+              <p>Double-click the <code>.exe</code> file. The installer will replace the previous version automatically — no need to uninstall first.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Open Classify</strong>
+              <p>Launch Classify as normal. The background server restarts with the new version.</p>
             </div>
           </div>
         </div>
@@ -618,14 +686,14 @@
           </div>
         </div>
 
-        <div class="media-frame">
-          <div class="media-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
-          <div class="media-placeholder">
-            <div class="media-placeholder-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-            </div>
-            <strong>Screenshot — School config screen showing the network URL</strong>
-            <span>Highlight the URL field teachers should bookmark</span>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+          <div class="media-frame" style="margin-bottom:0;">
+            <div class="media-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+            <img src="media/3-onboarding-school-config.png" alt="School config screen" style="width:100%;display:block;">
+          </div>
+          <div class="media-frame" style="margin-bottom:0;">
+            <div class="media-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+            <img src="media/4-share-url-with-teachers.png" alt="Share URL with teachers" style="width:100%;display:block;">
           </div>
         </div>
 
@@ -671,6 +739,17 @@
               <strong>Share the code</strong>
               <p>Copy the code or use the email link. The invite expires in 7 days. The teacher goes to the Classify setup page at your school's network address and enters the code to create their account.</p>
             </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+          <div class="media-frame" style="margin-bottom:0;">
+            <div class="media-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+            <img src="media/18-add-user-modal-1.png" alt="Add user modal" style="width:100%;display:block;">
+          </div>
+          <div class="media-frame" style="margin-bottom:0;">
+            <div class="media-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+            <img src="media/19-add-user-invite-code-modal.png" alt="Invite code modal" style="width:100%;display:block;">
           </div>
         </div>
 
@@ -733,6 +812,11 @@
           </div>
         </div>
 
+        <div class="media-frame">
+          <div class="media-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+          <img src="media/15-transition-new-chool-year.png" alt="New school year transition wizard" style="width:100%;display:block;">
+        </div>
+
         <div class="callout callout-info">
           <div class="callout-icon">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -751,9 +835,9 @@
           </div>
           <h2>App won't open</h2>
         </div>
-        <p class="guide-intro">There are two common reasons Classify might not open on a Mac.</p>
+        <p class="guide-intro">There are a few common reasons Classify might not open.</p>
 
-        <p style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px;">macOS says it "cannot verify" the app</p>
+        <p style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px;">Mac — macOS says it "cannot verify" the app</p>
         <p class="guide-intro" style="margin-bottom:16px;">This is a Gatekeeper warning. It means you downloaded an older version that wasn't notarized, or you're on a newer macOS that's being extra cautious.</p>
 
         <div class="steps" style="margin-bottom:20px;">
@@ -776,6 +860,25 @@
             <div class="step-body">
               <strong>Or: System Settings → Privacy &amp; Security</strong>
               <p>Scroll down to the security section and click <strong>Open Anyway</strong> next to the Classify entry.</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size:14px;font-weight:600;color:var(--ink);margin-top:20px;margin-bottom:10px;">Windows — SmartScreen blocks the installer or app</p>
+        <p class="guide-intro" style="margin-bottom:16px;">Windows may show a blue SmartScreen warning when you run the installer or launch Classify for the first time.</p>
+        <div class="steps" style="margin-bottom:24px;">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Click "More info" in the SmartScreen dialog</strong>
+              <p>Don't click "Don't run." Click the smaller <strong>More info</strong> link that appears in the dialog.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Click "Run anyway"</strong>
+              <p>After clicking More info, a <strong>Run anyway</strong> button will appear. Click it to proceed. You only need to do this once.</p>
             </div>
           </div>
         </div>
@@ -904,7 +1007,7 @@
           </div>
           <h2>Uninstalling completely</h2>
         </div>
-        <p class="guide-intro">Dragging Classify to the Trash removes the app but leaves your data and background server intact — by design, so updates don't wipe your data. To remove everything, use the in-app uninstall option first.</p>
+        <p class="guide-intro">Removing the app file alone leaves your data and background server intact — by design, so updates don't wipe your data. To remove everything completely, follow the steps below for your platform.</p>
 
         <div class="callout callout-danger">
           <div class="callout-icon">
@@ -913,7 +1016,8 @@
           <p><strong>This permanently deletes all data.</strong> Export a backup first if you may need the data later.</p>
         </div>
 
-        <div class="steps">
+        <p style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px;">On Mac</p>
+        <div class="steps" style="margin-bottom:24px;">
           <div class="step">
             <div class="step-num">1</div>
             <div class="step-body">
@@ -932,14 +1036,32 @@
             <div class="step-num">3</div>
             <div class="step-body">
               <strong>Confirm the uninstall</strong>
-              <p>Click <strong>Uninstall</strong>. Classify will stop the background server, delete all data and logs, and quit. This takes a few seconds.</p>
+              <p>Click <strong>Uninstall</strong>. Classify stops the background server, deletes all data and logs, and quits. This takes a few seconds.</p>
             </div>
           </div>
           <div class="step">
             <div class="step-num">4</div>
             <div class="step-body">
               <strong>Drag Classify to the Trash</strong>
-              <p>Finally, drag the Classify app from your Applications folder to the Trash to remove the app itself. Classify is now completely uninstalled.</p>
+              <p>Drag the Classify app from your Applications folder to the Trash to remove the app itself.</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px;">On Windows</p>
+        <div class="steps" style="margin-bottom:0;">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Export a backup (optional but recommended)</strong>
+              <p>Go to <strong>School config → Export backup</strong> to save a copy of all your data before proceeding.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Uninstall from Settings</strong>
+              <p>Open <strong>Settings → Apps</strong>, find Classify in the list, and click <strong>Uninstall</strong>. This removes the app and all associated data.</p>
             </div>
           </div>
         </div>
