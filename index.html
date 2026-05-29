@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="favicon.png" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -52,11 +53,19 @@
     }
 
     .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
       font-family: 'Instrument Serif', serif;
       font-style: italic;
       font-size: 22px;
       color: var(--ink);
-      text-decoration: none;
+    }
+    .nav-brand img {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
     }
     .nav-brand span { color: var(--terra); }
 
@@ -557,7 +566,7 @@
 
   <!-- Nav -->
   <nav>
-    <a class="nav-brand" href="index.html"><span>Class</span>ify</a>
+    <a class="nav-brand" href="index.html"><img src="icon.png" alt="Classify"><span>Class</span>ify</a>
     <ul class="nav-links">
       <li><a href="#how-it-works">How it works</a></li>
       <li><a href="#features">Features</a></li>
@@ -829,7 +838,7 @@
 
   <!-- Footer -->
   <footer>
-    <a class="nav-brand" href="index.html"><span>Class</span>ify</a>
+    <a class="nav-brand" href="index.html"><img src="icon.png" alt="Classify"><span>Class</span>ify</a>
     <span>Student data stays where it belongs — on your school's computers.</span>
   </footer>
 
