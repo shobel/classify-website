@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Classify — User guides</title>
+  <meta name="description" content="Step-by-step guides for installing, updating, and managing Classify at your school." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --terra: #b5664a;
+      --terra-dark: #9a5239;
+      --terra-soft: oklch(0.95 0.04 50);
+      --ink: #1a1714;
+      --ink-2: #3d3830;
+      --ink-3: #6b6358;
+      --ink-4: #9c9287;
+      --bg: #faf8f5;
+      --bg-2: #f3f0eb;
+      --bg-3: #ede9e3;
+      --line: #e4dfd8;
+      --sage: #4a7c6b;
+      --sage-soft: oklch(0.94 0.03 160);
+      --rose: #b54a4a;
+      --rose-soft: oklch(0.95 0.03 15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Geist', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 60px;
+      background: rgba(250,248,245,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 22px;
+      color: var(--ink);
+    }
+    .nav-brand img { width: 28px; height: 28px; border-radius: 7px; }
+    .nav-brand span { color: var(--terra); }
+
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--ink-3);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-back:hover { color: var(--ink); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s, transform 0.1s;
+      border: none;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-terra { background: var(--terra); color: #fff; }
+
+    /* ── Layout ── */
+    .page-wrap {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 96px 48px 80px;
+      gap: 64px;
+      align-items: start;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky;
+      top: 80px;
+    }
+
+    .sidebar-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-4);
+      margin-bottom: 12px;
+    }
+
+    .sidebar-nav {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .sidebar-nav a {
+      display: block;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--ink-3);
+      text-decoration: none;
+      transition: background 0.12s, color 0.12s;
+      line-height: 1.4;
+    }
+    .sidebar-nav a:hover { background: var(--bg-2); color: var(--ink); }
+    .sidebar-nav a.active { background: var(--terra-soft); color: var(--terra-dark); font-weight: 500; }
+
+    .sidebar-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 10px 0;
+    }
+
+    /* ── Main content ── */
+    .content { min-width: 0; }
+
+    .content-header {
+      margin-bottom: 52px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .content-header h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 38px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    .content-header h1 em { color: var(--terra); font-style: italic; }
+
+    .content-header p {
+      font-size: 15px;
+      color: var(--ink-3);
+      line-height: 1.7;
+      max-width: 520px;
+    }
+
+    /* ── Guide sections ── */
+    .guide {
+      padding-bottom: 56px;
+      margin-bottom: 56px;
+      border-bottom: 1px solid var(--line);
+    }
+    .guide:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .guide-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .guide-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .guide h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 26px;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+
+    .guide-intro {
+      font-size: 14px;
+      color: var(--ink-3);
+      line-height: 1.75;
+      margin-bottom: 28px;
+      max-width: 580px;
+    }
+
+    /* ── Steps ── */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 16px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      background: var(--bg);
+    }
+    .step:last-child { border-bottom: none; }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--terra-soft);
+      border: 1px solid oklch(0.85 0.07 50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--terra-dark);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-body {}
+    .step-body strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+    .step-body p {
+      font-size: 13px;
+      color: var(--ink-3);
+      line-height: 1.65;
+    }
+    .step-body code {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      background: var(--bg-3);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1px 6px;
+      color: var(--ink-2);
+    }
+
+    /* ── Callout ── */
+    .callout {
+      display: flex;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .callout-icon { flex-shrink: 0; margin-top: 1px; }
+    .callout p { margin: 0; }
+    .callout strong { font-weight: 600; display: block; margin-bottom: 2px; }
+
+    .callout-info {
+      background: oklch(0.94 0.03 240);
+      border: 1px solid oklch(0.82 0.06 240);
+      color: oklch(0.35 0.08 240);
+    }
+    .callout-warn {
+      background: oklch(0.96 0.04 80);
+      border: 1px solid oklch(0.84 0.08 80);
+      color: oklch(0.40 0.10 80);
+    }
+    .callout-danger {
+      background: var(--rose-soft);
+      border: 1px solid oklch(0.84 0.06 15);
+      color: var(--rose);
+    }
+    .callout-tip {
+      background: var(--sage-soft);
+      border: 1px solid oklch(0.82 0.06 160);
+      color: var(--sage);
+    }
+
+    /* ── Media placeholder ── */
+    .media-frame {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+    }
+    .media-bar {
+      background: var(--bg-2);
+      border-bottom: 1px solid var(--line);
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .dot { width: 9px; height: 9px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+
+    .media-placeholder {
+      background: var(--bg-2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 32px;
+      color: var(--ink-4);
+      font-size: 13px;
+      aspect-ratio: 16/7;
+    }
+    .media-placeholder-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: var(--bg-3);
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .media-placeholder strong { display: block; color: var(--ink-3); font-weight: 600; }
+    .media-placeholder span { color: var(--ink-4); font-size: 12px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .page-wrap { grid-template-columns: 1fr; padding: 88px 20px 60px; gap: 0; }
+      .sidebar { position: static; margin-bottom: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-brand" href="index.html"><img src="icon.png" alt="Classify"><span>Class</span>ify</a>
+    <a class="nav-back" href="index.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </a>
+    <a class="btn btn-terra" href="index.html#contact">Get in touch</a>
+  </nav>
+
+  <div class="page-wrap">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-label">Getting started</div>
+      <ul class="sidebar-nav">
+        <li><a href="#install-first-time">Installing for the first time</a></li>
+        <li><a href="#activate">Activating your license</a></li>
+      </ul>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-label">Ongoing use</div>
+      <ul class="sidebar-nav">
+        <li><a href="#update">Installing a new version</a></li>
+        <li><a href="#teacher-access">Giving teachers access</a></li>
+        <li><a href="#add-users">Adding &amp; removing users</a></li>
+        <li><a href="#new-year">Starting a new school year</a></li>
+      </ul>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-label">Troubleshooting</div>
+      <ul class="sidebar-nav">
+        <li><a href="#wont-open">App won't open</a></li>
+        <li><a href="#forgot-password">Forgot admin password</a></li>
+        <li><a href="#new-computer">Moving to a new computer</a></li>
+        <li><a href="#uninstall">Uninstalling completely</a></li>
+      </ul>
+    </aside>
+
+    <!-- Content -->
+    <main class="content">
+
+      <div class="content-header">
+        <h1>User <em>guides</em></h1>
+        <p>Step-by-step instructions for installing, managing, and troubleshooting Classify at your school.</p>
+      </div>
+
+      <!-- ── Installing for the first time ── -->
+      <div class="guide" id="install-first-time">
+        <div class="guide-header">
+          <div class="guide-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </div>
+          <h2>Installing for the first time</h2>
+        </div>
+        <p class="guide-intro">Classify installs on one computer at your school — typically the administrator's machine. Teachers don't install anything; they access it through their browser.</p>
+
+        <div class="callout callout-info">
+          <div class="callout-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <p><strong>Which computer?</strong> Install on a machine that stays on and connected to the school network during the school day. Teachers connect to it from their own devices.</p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Download the installer</strong>
+              <p>Get the latest version from the Classify website. On Mac, download the <code>.dmg</code> file matching your chip — <strong>arm64</strong> for Apple Silicon (M1/M2/M3/M4), or the standard <code>.dmg</code> for Intel.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Open the DMG and drag to Applications</strong>
+              <p>Double-click the downloaded <code>.dmg</code> file, then drag the Classify icon into the Applications folder shortcut in the window.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Open Classify</strong>
+              <p>Find Classify in your Applications folder and double-click it. The first launch takes a few seconds while the background server starts.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <strong>Enter your activation code</strong>
+              <p>You'll be prompted to enter the activation code you received when purchasing Classify. Enter it and click Activate.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-body">
+              <strong>Create your admin account</strong>
+              <p>On first run, you'll be asked to set up the admin account — choose a username and password. This becomes the primary administrator account.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="media-frame">
+          <div class="media-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+          <div class="media-placeholder">
+            <div class="media-placeholder-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            </div>
+            <strong>Screenshot — DMG window open, arrow pointing to Applications</strong>
+            <span>Show the drag-to-install step</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Activating ── -->
+      <div class="guide" id="activate">
+        <div class="guide-header">
+          <div class="guide-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <h2>Activating your license</h2>
+        </div>
+        <p class="guide-intro">Each Classify license is tied to an activation code. You enter it once and the app is permanently unlocked on that machine.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Find your activation code</strong>
+              <p>Your code was sent by email when you purchased Classify. It looks like a short string of letters and numbers.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Enter it in the activation screen</strong>
+              <p>When you first open Classify, you'll see the activation screen. Type or paste your code and click <strong>Activate</strong>. Classify verifies the code with our server — an internet connection is required for this step only.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Done — the app works offline from here</strong>
+              <p>Once activated, Classify runs entirely on your school's network. No internet connection is needed for day-to-day use.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-warn">
+          <div class="callout-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <p><strong>Each code is single-use.</strong> If you need to move to a new computer, contact us for a transfer — don't re-enter the same code on a new machine without reaching out first.</p>
+        </div>
+      </div>
+
+      <!-- ── Installing a new version ── -->
+      <div class="guide" id="update">
+        <div class="guide-header">
+          <div class="guide-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+            </svg>
+          </div>
+          <h2>Installing a new version</h2>
+        </div>
+        <p class="guide-intro">Updating Classify is straightforward. Your data is never touched during an update — it lives in a separate location from the app itself.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Download the new version</strong>
+              <p>Classify will show an update notification when a new version is available. Download the new <code>.dmg</code> from the link provided.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Drag the new version to Applications</strong>
+              <p>Open the DMG and drag Classify to Applications. macOS will ask if you want to replace the existing version — click <strong>Replace</strong>.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Open Classify</strong>
+              <p>Open the app as normal. Classify detects that the version has changed and automatically restarts its background server with the new version. This takes a few seconds.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-tip">
+          <div class="callout-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <p><strong>Teachers stay connected.</strong> The background server keeps running while the Electron window is closed, so teachers in their browsers aren't interrupted during normal use. The server only restarts when you open the new version — plan updates for a quiet moment.</p>
+        </div>
+      </div>
+
+      <!-- ── Giving teachers access ── -->
+      <div class="guide" id="teacher-access">
+        <div class="guide-header">
+          <div class="guide-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h2>Giving teachers access</h2>
+        </div>
+        <p class="guide-intro">Teachers open Classify in any browser — no app to install. They just need the address of your school's Classify server and an account.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Find your school network address</strong>
+              <p>In Classify, go to <strong>School config</strong>. Your school network URL is shown there — it looks like <code>http://192.168.x.x:5001</code>. This is the address teachers type into their browser.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Make sure teachers are on the same network</strong>
+              <p>Teachers must be connected to the same school Wi-Fi or wired network as the computer running Classify. The address won't work from home or over a different network.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Create an account for each teacher</strong>
+              <p>Go to <strong>Users</strong> in the sidebar and click <strong>Add user</strong>. Generate an invite code and share it with the teacher. They visit the setup page, enter the code, and choose their own username and password.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <strong>Share the address</strong>
+              <p>Send teachers the network URL. They bookmark it in their browser and use it to sign in from any device on the school network.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="media-frame">
+          <div class="media-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+          <div class="media-placeholder">
+            <div class="media-placeholder-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-4)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            </div>
+            <strong>Screenshot — School config screen showing the network URL</strong>
+            <span>Highlight the URL field teachers should bookmark</span>
+          </div>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <p><strong>The host computer must be on.</strong> If the computer running Classify is off or asleep, teachers won't be able to connect. Make sure it's set to never sleep while plugged in.</p>
+        </div>
+      </div>
+
+      <!-- ── Adding & removing users ── -->
+      <div class="guide" id="add-users">
+        <div class="guide-header">
+          <div class="guide-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/>
+              <line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
+            </svg>
+          </div>
+          <h2>Adding &amp; removing users</h2>
+        </div>
+        <p class="guide-intro">Only admins can manage user accounts. Teachers and assistants are added via invite codes — there's no self-registration.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Go to Users in the sidebar</strong>
+              <p>This screen is only visible to admin accounts.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Click "Add user"</strong>
+              <p>Choose whether the new user should have admin privileges or teacher access. Click <strong>Generate invite code</strong>.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Share the code</strong>
+              <p>Copy the code or use the email link. The invite expires in 7 days. The teacher goes to the Classify setup page at your school's network address and enters the code to create their account.</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size:13px;font-weight:600;color:var(--ink-2);margin-bottom:12px;">To remove a user:</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Find the user in the Users screen</strong>
+              <p>Click <strong>Remove</strong> next to their name. They are immediately signed out and can no longer access Classify.</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size:13px;font-weight:600;color:var(--ink-2);margin:20px 0 12px;">To change a user's role:</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Click "Make admin" or "Make teacher"</strong>
+              <p>Next to any user (other than yourself), you can toggle their role between Teacher and Admin without creating a new account.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── New school year ── -->
+      <div class="guide" id="new-year">
+        <div class="guide-header">
+          <div class="guide-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </div>
+          <h2>Starting a new school year</h2>
+        </div>
+        <p class="guide-intro">At the start of each year, Classify promotes every student up one grade automatically. Your previous year's data stays intact and accessible.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Click the ↗ button next to "School years" in the sidebar</strong>
+              <p>This creates the next school year and promotes all students — Kindergarten moves to 1st grade, 1st to 2nd, and so on. 8th graders are not promoted (they graduate). A new empty Kindergarten is created for incoming students.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Review and adjust</strong>
+              <p>All student data, notes, and history carry forward. Class placements from the previous year are cleared so you can run a fresh placement for each grade.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Add new Kindergarteners</strong>
+              <p>Import or manually add incoming students to the new Kindergarten grade.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <p>Previous school years are never deleted — you can switch between them at any time using the sidebar.</p>
+        </div>
+      </div>
+
+      <!-- ── App won't open ── -->
+      <div class="guide" id="wont-open">
+        <div class="guide-header">
+          <div class="guide-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <h2>App won't open</h2>
+        </div>
+        <p class="guide-intro">There are two common reasons Classify might not open on a Mac.</p>
+
+        <p style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px;">macOS says it "cannot verify" the app</p>
+        <p class="guide-intro" style="margin-bottom:16px;">This is a Gatekeeper warning. It means you downloaded an older version that wasn't notarized, or you're on a newer macOS that's being extra cautious.</p>
+
+        <div class="steps" style="margin-bottom:20px;">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Make sure you have the latest version</strong>
+              <p>Download the current release from the Classify website. Older releases may not be notarized.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>If the warning still appears: right-click → Open</strong>
+              <p>Right-click (or Control-click) the Classify app in your Applications folder and choose <strong>Open</strong>. Then click <strong>Open</strong> in the dialog. You only need to do this once.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Or: System Settings → Privacy &amp; Security</strong>
+              <p>Scroll down to the security section and click <strong>Open Anyway</strong> next to the Classify entry.</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px;">The app opens but shows an error about the server</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Check if port 5001 is in use</strong>
+              <p>Another app may be using port 5001. Quit any other local server apps and try opening Classify again.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Quit and reopen</strong>
+              <p>Quit Classify completely (Classify menu → Quit) and reopen it. The server will restart fresh.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Forgot admin password ── -->
+      <div class="guide" id="forgot-password">
+        <div class="guide-header">
+          <div class="guide-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <h2>Forgot admin password</h2>
+        </div>
+        <p class="guide-intro">If you've forgotten your admin password, there's an emergency recovery page accessible only from the computer running Classify.</p>
+
+        <div class="callout callout-warn">
+          <div class="callout-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <p><strong>This only works from the host computer.</strong> The recovery page is blocked from all other devices on the network — it can only be accessed from the machine running Classify.</p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>On the Classify host computer, open a browser</strong>
+              <p>Go to <code>http://127.0.0.1:5001/admin-recovery</code></p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Select your admin account and set a new password</strong>
+              <p>Choose the admin account from the list and enter a new password (at least 6 characters). Click <strong>Reset password</strong>.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Sign in with the new password</strong>
+              <p>Return to Classify and sign in normally.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Moving to a new computer ── -->
+      <div class="guide" id="new-computer">
+        <div class="guide-header">
+          <div class="guide-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+            </svg>
+          </div>
+          <h2>Moving to a new computer</h2>
+        </div>
+        <p class="guide-intro">If you're replacing the machine that runs Classify, export a backup from the old computer and import it on the new one.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>On the old computer: export a backup</strong>
+              <p>In Classify, go to <strong>School config</strong> and click <strong>Export backup</strong>. This creates a <code>.classify</code> file containing all your data.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Install Classify on the new computer</strong>
+              <p>Download and install the latest version on the new machine. When you reach the activation screen, you'll see an option to restore from backup instead of entering a code.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Import the backup file</strong>
+              <p>Click <strong>Restore from backup</strong>, select the <code>.classify</code> file from the old computer, and Classify will restore all your data. Your activation transfers with the backup.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <strong>Update the network URL for teachers</strong>
+              <p>The new computer will have a different IP address. Share the new URL with teachers so they can update their bookmarks.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <p>Contact us before activating on the new machine if you have any trouble with your activation code transferring.</p>
+        </div>
+      </div>
+
+      <!-- ── Uninstalling ── -->
+      <div class="guide" id="uninstall">
+        <div class="guide-header">
+          <div class="guide-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+            </svg>
+          </div>
+          <h2>Uninstalling completely</h2>
+        </div>
+        <p class="guide-intro">Dragging Classify to the Trash removes the app but leaves your data and background server intact — by design, so updates don't wipe your data. To remove everything, use the in-app uninstall option first.</p>
+
+        <div class="callout callout-danger">
+          <div class="callout-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <p><strong>This permanently deletes all data.</strong> Export a backup first if you may need the data later.</p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Export a backup (optional but recommended)</strong>
+              <p>Go to <strong>School config → Export backup</strong> to save a copy of all your data before proceeding.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Go to Classify menu → Uninstall Classify…</strong>
+              <p>In the menu bar, click <strong>Classify → Uninstall Classify…</strong>. A confirmation dialog will appear explaining what will be deleted.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Confirm the uninstall</strong>
+              <p>Click <strong>Uninstall</strong>. Classify will stop the background server, delete all data and logs, and quit. This takes a few seconds.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <strong>Drag Classify to the Trash</strong>
+              <p>Finally, drag the Classify app from your Applications folder to the Trash to remove the app itself. Classify is now completely uninstalled.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // Highlight active sidebar link on scroll
+    const guides = document.querySelectorAll('.guide');
+    const links = document.querySelectorAll('.sidebar-nav a');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.sidebar-nav a[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+
+    guides.forEach(g => observer.observe(g));
+  </script>
+
+</body>
+</html>
