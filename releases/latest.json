@@ -1,8 +1,8 @@
 {
-  "version": "1.1.11",
-  "mac_arm_url": "https://github.com/shobel/class-assigner/releases/download/v1.1.11/Classify-1.1.11-arm64.dmg",
-  "mac_x64_url": "https://github.com/shobel/class-assigner/releases/download/v1.1.11/Classify-1.1.11.dmg",
-  "mac_url": "https://github.com/shobel/class-assigner/releases/download/v1.1.11/Classify-1.1.11-arm64.dmg",
-  "windows_url": "https://github.com/shobel/class-assigner/releases/download/v1.1.11/Classify-Setup-1.1.11.exe",
+  "version": "1.1.12",
+  "mac_arm_url": "https://github.com/shobel/class-assigner/releases/download/v1.1.12/Classify-1.1.12-arm64.dmg",
+  "mac_x64_url": "https://github.com/shobel/class-assigner/releases/download/v1.1.12/Classify-1.1.12.dmg",
+  "mac_url": "https://github.com/shobel/class-assigner/releases/download/v1.1.12/Classify-1.1.12-arm64.dmg",
+  "windows_url": "https://github.com/shobel/class-assigner/releases/download/v1.1.12/Classify-Setup-1.1.12.exe",
   "notes": ""
 }
