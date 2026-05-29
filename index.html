@@ -451,6 +451,114 @@
       margin-bottom: 14px;
     }
 
+    /* ── Requirements ── */
+    .req-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    .req-card {
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .req-card-primary {
+      background: var(--bg);
+      border-color: var(--terra);
+      border-width: 1.5px;
+    }
+    .req-card-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--ink-4);
+      margin-bottom: 10px;
+    }
+    .req-card-primary .req-card-label { color: var(--terra); }
+    .req-card h3 {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .req-card p {
+      font-size: 14px;
+      color: var(--ink-3);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+    .req-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 0;
+    }
+    .req-list li {
+      font-size: 13px;
+      color: var(--ink-2);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .req-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--terra);
+      font-size: 12px;
+    }
+    .req-note {
+      margin-top: 20px;
+      padding: 14px 16px;
+      background: oklch(0.97 0.02 50);
+      border: 1px solid oklch(0.88 0.04 50);
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--ink-3);
+      line-height: 1.6;
+    }
+    .req-note strong { color: var(--ink-2); }
+    .req-note code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: oklch(0.93 0.03 50);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+    .req-notneed {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 16px 20px;
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+    .req-notneed-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--ink-4);
+      margin-right: 4px;
+    }
+    .req-notneed-item {
+      font-size: 13px;
+      color: var(--ink-3);
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 4px 12px;
+    }
+    .req-notneed-item::before { content: '✗ '; color: var(--ink-4); font-size: 11px; }
+
     /* ── CTA ── */
     .cta-section {
       padding: 88px 48px;
@@ -552,6 +660,7 @@
       .step { border-right: none; border-bottom: 1px solid var(--line); }
       .step:last-child { border-bottom: none; }
       .features-two-col { grid-template-columns: 1fr; gap: 28px; }
+      .req-grid { grid-template-columns: 1fr; }
       .arch-diagram { grid-template-columns: 1fr; }
       .arch-connector { flex-direction: row; border: none; border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 16px 24px; }
       .security-grid { grid-template-columns: 1fr; }
@@ -781,6 +890,50 @@
       </div>
     </div>
   </div>
+
+  <!-- Requirements -->
+  <section id="requirements">
+    <div class="section-label">Requirements</div>
+    <h2 class="section-title">What you need <em>to get started.</em></h2>
+    <p class="section-sub">Classify runs on one computer at your school. Everything else just needs a browser.</p>
+
+    <div class="req-grid">
+      <div class="req-card req-card-primary">
+        <div class="req-card-label">The Classify computer</div>
+        <h3>One Mac or Windows PC</h3>
+        <p>Classify installs on a single computer — typically the admin's machine or a dedicated office computer. It runs quietly in the background and doesn't require anything special.</p>
+        <ul class="req-list">
+          <li>macOS 12 or later, or Windows 10/11</li>
+          <li>Standard administrator account</li>
+          <li>Should stay on during the school day so teachers can connect</li>
+          <li>Internet only needed for initial activation and update checks</li>
+        </ul>
+      </div>
+
+      <div class="req-card">
+        <div class="req-card-label">Teacher devices</div>
+        <h3>Any device, any browser</h3>
+        <p>Teachers open Classify in a browser — no app to install. Works on Macs, Windows PCs, Chromebooks, iPads, and phones.</p>
+        <ul class="req-list">
+          <li>Chrome, Safari, Firefox, or Edge</li>
+          <li>Must be on the same school network as the Classify computer</li>
+          <li>No software installation required</li>
+        </ul>
+        <div class="req-note">
+          <strong>Managed networks:</strong> On some enterprise-managed school networks, the easy-access hostname (<code>classify.local</code>) may be blocked. Teachers can still connect using the direct IP address instead — or your IT team can add a simple DNS entry. The app itself is unaffected either way.
+        </div>
+      </div>
+    </div>
+
+    <div class="req-notneed">
+      <span class="req-notneed-label">Not required</span>
+      <span class="req-notneed-item">Cloud subscription</span>
+      <span class="req-notneed-item">Dedicated server</span>
+      <span class="req-notneed-item">IT involvement to install</span>
+      <span class="req-notneed-item">Software on teacher devices</span>
+      <span class="req-notneed-item">Always-on internet</span>
+    </div>
+  </section>
 
   <!-- Contact -->
   <div class="cta-section" id="contact">
