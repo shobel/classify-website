@@ -621,15 +621,15 @@
           <div class="step">
             <div class="step-num">2</div>
             <div class="step-body">
-              <strong>Run the installer</strong>
-              <p>Double-click the <code>.exe</code> file. The installer will replace the previous version automatically — no need to uninstall first.</p>
+              <strong>Quit Classify, then run the installer</strong>
+              <p>Quit the Classify app before running the installer (File → Quit). The installer needs to replace files that the running app has open. Then double-click the <code>.exe</code> — no need to uninstall first.</p>
             </div>
           </div>
           <div class="step">
             <div class="step-num">3</div>
             <div class="step-body">
               <strong>Open Classify</strong>
-              <p>Launch Classify as normal. The background server restarts with the new version.</p>
+              <p>Launch Classify as normal. The background server starts with the new version.</p>
             </div>
           </div>
         </div>
@@ -702,6 +702,13 @@
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           </div>
           <p><strong>The host computer must be on.</strong> If the computer running Classify is off or asleep, teachers won't be able to connect. Make sure it's set to never sleep while plugged in.</p>
+        </div>
+
+        <div class="callout callout-tip">
+          <div class="callout-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <p><strong>The server runs persistently — even when you close the app.</strong> On Mac, the Classify server runs as a background system service (launchd) and starts automatically at login — you never need to think about it. On Windows, Classify launches automatically at login and the server keeps running in the background even after you close the Classify window. On both platforms, teachers stay connected regardless of whether the Classify app is open on the admin's screen.</p>
         </div>
       </div>
 
