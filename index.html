@@ -563,6 +563,60 @@
     }
     .req-notneed-item::before { content: '✗ '; color: var(--ink-4); font-size: 11px; }
 
+    /* ── Download ── */
+    .download-section {
+      padding: 88px 48px;
+      text-align: center;
+      border-top: 1px solid var(--line);
+    }
+
+    .download-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 36px;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    .download-title em { color: var(--terra); font-style: italic; }
+
+    .download-sub {
+      font-size: 15px;
+      color: var(--ink-3);
+      margin-bottom: 32px;
+    }
+
+    .download-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--ink);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    }
+    .download-btn:hover { border-color: var(--ink-3); background: var(--bg-2); transform: translateY(-1px); }
+    .download-btn-primary { background: var(--terra); color: #fff; border-color: var(--terra); }
+    .download-btn-primary:hover { background: var(--terra-dark); border-color: var(--terra-dark); }
+
+    .download-meta {
+      font-size: 13px;
+      color: var(--ink-4);
+    }
+
     /* ── CTA ── */
     .cta-section {
       padding: 88px 48px;
@@ -684,6 +738,7 @@
     <ul class="nav-links">
       <li><a href="tour.html">Tour</a></li>
       <li><a href="learn.html">Guides</a></li>
+      <li><a href="#download">Download</a></li>
     </ul>
     <a class="btn btn-terra" href="#contact">Get in touch</a>
   </nav>
@@ -939,6 +994,27 @@
     </div>
   </section>
 
+  <!-- Download -->
+  <div class="download-section" id="download">
+    <h2 class="download-title">Download <em>Classify</em></h2>
+    <p class="download-sub">Free to download. An activation code is required to use the app — <a href="#contact" style="color:var(--terra);text-decoration:none;">get in touch</a> to get one.</p>
+    <div class="download-buttons">
+      <a class="download-btn download-btn-primary" id="dl-mac-arm" href="#">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.3.05-2.28-1.32-3.11-2.55C4.62 15.45 3.76 9.87 5.9 7.27c1.06-1.28 2.61-2.09 4.23-2.09 1.32 0 2.57.89 3.41.89.83 0 2.4-1.1 4.05-.94.69.03 2.62.28 3.86 2.1-.1.06-2.31 1.35-2.28 4.02.03 3.18 2.79 4.24 2.82 4.25-.03.07-.44 1.51-1.28 3zm-3.87-17.2c.73-.88 1.23-2.1 1.09-3.3-1.05.04-2.32.7-3.07 1.57-.67.78-1.26 2.02-1.1 3.2 1.16.09 2.35-.59 3.08-1.47z"/></svg>
+        Mac — Apple Silicon
+      </a>
+      <a class="download-btn" id="dl-mac-x64" href="#">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.3.05-2.28-1.32-3.11-2.55C4.62 15.45 3.76 9.87 5.9 7.27c1.06-1.28 2.61-2.09 4.23-2.09 1.32 0 2.57.89 3.41.89.83 0 2.4-1.1 4.05-.94.69.03 2.62.28 3.86 2.1-.1.06-2.31 1.35-2.28 4.02.03 3.18 2.79 4.24 2.82 4.25-.03.07-.44 1.51-1.28 3zm-3.87-17.2c.73-.88 1.23-2.1 1.09-3.3-1.05.04-2.32.7-3.07 1.57-.67.78-1.26 2.02-1.1 3.2 1.16.09 2.35-.59 3.08-1.47z"/></svg>
+        Mac — Intel
+      </a>
+      <a class="download-btn" id="dl-win" href="#">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+        Windows
+      </a>
+    </div>
+    <p class="download-meta" id="dl-version">Loading latest version…</p>
+  </div>
+
   <!-- Contact -->
   <div class="cta-section" id="contact">
     <div class="cta-inner">
@@ -996,6 +1072,20 @@
     <a class="nav-brand" href="index.html"><img src="icon.png" alt="Classify"><span><b>Class</b>ify</span></a>
     <span>Student data stays where it belongs — on your school's computers.</span>
   </footer>
+
+  <script>
+    fetch('/releases/latest.json')
+      .then(r => r.json())
+      .then(d => {
+        document.getElementById('dl-mac-arm').href = d.mac_arm_url;
+        document.getElementById('dl-mac-x64').href = d.mac_x64_url;
+        document.getElementById('dl-win').href = d.windows_url;
+        document.getElementById('dl-version').textContent = 'Version ' + d.version;
+      })
+      .catch(() => {
+        document.getElementById('dl-version').textContent = '';
+      });
+  </script>
 
   <script>
     const form = document.getElementById('contact-form');
